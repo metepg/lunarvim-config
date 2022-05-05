@@ -10,6 +10,7 @@ vim.o.scrolloff = 0
 
 -- Search / Find
 keymap("n", "<Esc>", "<Cmd>noh<CR>", opts)
+keymap("n", "<F12>", "<Cmd>lua vim.lsp.buf.definition()<CR>", opts)
 keymap("n", "?", "/", opts)
 keymap("n", "/", "?", opts)
 keymap("n", "<S-F>", "<Cmd>lua require('telescope.builtin').live_grep()<CR>", opts)
@@ -41,8 +42,12 @@ keymap("n", ",rn", "<Cmd>lua vim.lsp.buf.rename()<CR>", opts)
 -- Plugins
 require('hop').setup()
 require('cinnamon').setup()
+require("trouble").setup {}
 keymap("n", "s", "<Cmd>HopWord<CR>", opts)
-keymap("n", "§", "<Cmd>BufferLineCycleNext<CR>", opts)
+keymap("n", "½", "<Cmd>BufferLineCycleNext<CR>", opts)
+keymap("n", "§", "<Cmd>BufferLineCyclePrev<CR>", opts)
+keymap("n", ",t", "<Cmd>TroubleToggle<CR>", opts)
+keymap("n", ",P", "<Cmd>Telescope projects<CR>", opts)
 
 -- Navigation
 lvim.keys.normal_mode["H"] = false
@@ -62,9 +67,11 @@ lvim.plugins = {
   { "phaazon/hop.nvim" },
   { "declancm/cinnamon.nvim" },
   { "alvan/vim-closetag" },
-  { "martinsione/darkplus.nvim" }
-}
-
+  { "martinsione/darkplus.nvim" },
+  {
+    "folke/trouble.nvim",
+    requires = "kyazdani42/nvim-web-devicons",
+  } }
 -- Change Telescope navigation to use j and k for navigation and n and p for history in both input and normal mode.
 -- we use protected-mode (pcall) just in case the plugin wasn't loaded yet.
 local _, actions = pcall(require, "telescope.actions")
@@ -176,3 +183,4 @@ lvim.builtin.treesitter.highlight.enabled = true
 -- lvim.autocommands.custom_groups = {
 --   { "BufWinEnter", "*.lua", "setlocal ts=8 sw=8" },
 -- }
+
